@@ -1,5 +1,5 @@
-# translate - Implementing-a-Thread-Safe-Queue-using-Condition-Variables
-
+# translation - Implementing-a-Thread-Safe-Queue-using-Condition-Variables
+# 实现一个线程安全队列
 原链接： https://www.justsoftwaresolutions.co.uk/threading/implementing-a-thread-safe-queue-using-condition-variables.html
 
 翻译： Scott Gu 
