@@ -4,6 +4,9 @@
 
 翻译： Scott Gu 
 
+
+源代码：https://github.com/ScottKaiGu/Implementing-a-Thread-Safe-Queue-using-Condition-Variables/blob/master/concurrent_queue.hpp
+
 多线程代码需要一次又一次面对的一个问题是，如何把数据从一个线程传到另一个县城。 举例来说，一个常见的把串行算法并行化的方法是，把他们分成块并且做成一个管道。管道中任意一块都可以单独在一个线程里运行。每个阶段完成后把数据给到下个阶段的输入队列。
  
  
