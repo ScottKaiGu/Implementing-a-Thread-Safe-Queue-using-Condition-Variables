@@ -1,5 +1,8 @@
 # Implementing-a-Thread-Safe-Queue-using-Condition-Variables
 
+原链接： https://www.justsoftwaresolutions.co.uk/threading/implementing-a-thread-safe-queue-using-condition-variables.html
+翻译： Scott Gu 
+
 多线程代码需要一次又一次面对的一个问题是，如何把数据从一个线程传到另一个县城。 举例来说，一个常见的把串行算法并行化的方法是，把他们分成块并且做成一个管道。管道中任意一块都可以单独在一个线程里运行。每个阶段完成后把数据给到下个阶段的输入队列。
  
  
@@ -7,7 +10,7 @@ Basic Thread Safety 使用mutex实现简单的线程安全
  
 最简单的办法是封装一个非线程安全的队列，使用mutex保护它（实例使用boost中的方法和类型，需要1.35以上版）
  
-复制代码
+ 
 template<typename Data>
 class concurrent_queue
 {
@@ -46,7 +49,7 @@ public:
     }
 };
  
-复制代码
+ 
  
 
 如果一个以上县城从队列中取数据，当前的设计会受制于竞态条件，empty, front 和pop会互相竞争。 但是对于一个消费者的系统就没事。 但是假如队列是空的话多个线程有可能无事可做，进入loop 等待->check->等待...:
@@ -61,6 +64,7 @@ public:
 不停轮询方案的一个替代方案是使用Condition Variable等待。  当数据被加到空队列之后Condition Variable会被通知，  然后等待的线程被唤醒。这需要mutex来保护队列。
 我们在 concurrent_queue里实现了个成员方法:
  
+
 template<typename Data>
 class concurrent_queue
 {
@@ -95,6 +99,7 @@ public:
  
 这还不是最佳方案：等待的线程可能在接到通知后立刻唤醒，并且是在mutex被解锁前，在这种条件下当退出wait重新获取mutex时，它将不得不阻塞。
 通过修改这个方法，新的通知将在mutex解锁后发出，等待的线程可以立刻获得mutex不需等待：
+
 template<typename Data>
 class concurrent_queue
 {
@@ -198,7 +203,7 @@ public:
 最终方案
 多生产者多消费者队列的最终方案：
 
-复制代码
+ 
 /*'''
 Created on Nov 10, 2014
 
@@ -317,11 +322,6 @@ public:
         }
     };
 };
-复制代码
- 
-
- 
-
  
 
  
